@@ -30,21 +30,19 @@ const Pokemon = ({
     dark: "#705848",
     steel: "#B8B8D0",
     dark: "#EE99AC",
+    fairy: "#D685",
   };
   return (
-    <div>
-      <div>
-        <img src={image} alt={name} />
-        <p>No. {id}</p>
-        <p>{name}</p>
+    <div
+      className="gap-2 p-4 rounded-lg drop-shadow-lg m-2 w-56 flex flex-col items-center"
+      style={{ backgroundColor: "rgba(105, 105, 105, 0.5)" }}
+    >
+      <div className="flex flex-col items-center">
+        <img src={image} alt={name} className="mb-2" />
+        <p className="text-center">No. {id}</p>
+        <p className="text-center font-bold">{name}</p>
       </div>
-      <div
-        style={{
-          display: "flex",
-          gap: "5px",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="flex gap-2 flex-wrap justify-center">
         {typesArray.map((type) => (
           <span
             key={type}
@@ -56,27 +54,31 @@ const Pokemon = ({
               fontWeight: "bold",
               textTransform: "capitalize",
               border: "2px solid #fff",
+              width: "80px",
+              textAlign: "center",
             }}
           >
             {type}
           </span>
         ))}
       </div>
-      <div>
+      <div className="text-center mt-2">
         <p>Weight: {weight} lbs</p>
         <p>Height: {height}0 cm</p>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-center items-center mt-2">
         <div>
           {statsName.map((stats, index) => (
-            <p className="uppercase" key={index}>
+            <p className="uppercase text-center" key={index}>
               {stats}:
             </p>
           ))}
         </div>
         <div>
           {stats.map((stats, index) => (
-            <p key={index}>{stats}</p>
+            <p className="text-center" key={index}>
+              {stats}
+            </p>
           ))}
         </div>
       </div>
