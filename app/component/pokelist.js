@@ -2,12 +2,22 @@
 
 import React, { useEffect, useState } from "react";
 import Pokemon from "./pokemon";
-import PokeSearch from "./pokeSearch";
+import PokeSearch from "../topbar/pokeSearch";
+import Loading from "../loading/loading";
+import Theme from "../topbar/Theme";
 
 const PokeList = () => {
   const [pokemon, setPokemon] = useState([]);
   const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loaderTimeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    return () => clearTimeout(loaderTimeout);
+  }, []);
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -60,13 +70,21 @@ const PokeList = () => {
     );
     setFilteredPokemon(filtered);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <div>
+    <div className="bg-white dark:bg-gray-800 min-h-screen">
+      <div className="absolute top-28 right-4 z-10">
+        <Theme />
+      </div>
       <PokeSearch onSearch={handleSearch} />
-      <div className="flex flex-wrap justify-center gap-4 p-4 bg-red-500">
+      <div className="flex flex-wrap justify-center gap-4 p-4">
         {filteredPokemon.map((pokemonstats) => (
           <Pokemon
-            key={pokemonstats.id}
+            key={pokemonstats.name}
             id={pokemonstats.id.toString().padStart(3, "0")}
             image={pokemonstats.sprites.other["official-artwork"].front_default}
             name={pokemonstats.name.replace(/^./, (c) => c.toUpperCase())}
@@ -79,16 +97,38 @@ const PokeList = () => {
             statsName={pokemonstats.stats
               .map((stat) => stat.stat.name)
               .slice(0, 3)}
+            abilities={pokemonstats.abilities
+              .map((ability) => ability.ability.name)
+              .slice(0, 3)}
           />
         ))}
       </div>
+
       <button
-        className={`font-bold bg-yellow-300 fixed bottom-4 right-4 rounded-full p-2 outline-none transition-opacity duration-200 ${
+        className={`font-bold bg-yellow-300 fixed bottom-4 right-4 rounded-full p-4 outline-none transition-opacity duration-200 ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
         onClick={scrollToTop}
       >
-        SCROLL TO TOP
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          className="size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m4.5 18.75 7.5-7.5 7.5 7.5"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m4.5 12.75 7.5-7.5 7.5 7.5"
+          />
+        </svg>
       </button>
     </div>
   );

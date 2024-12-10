@@ -1,5 +1,5 @@
 import React from "react";
-import PokeList from "./pokelist";
+import PokeList from "./component/pokelist";
 
 const Page = () => {
   return (
