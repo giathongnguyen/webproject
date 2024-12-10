@@ -13,13 +13,6 @@ const PokeList = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loaderTimeout = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    return () => clearTimeout(loaderTimeout);
-  }, []);
-
-  useEffect(() => {
     const toggleVisibility = () => {
       window.scrollY > 500 ? setIsVisible(true) : setIsVisible(false);
     };
@@ -57,6 +50,7 @@ const PokeList = () => {
     fetchedPokemon.sort((a, b) => a.id - b.id);
     setPokemon(fetchedPokemon);
     setFilteredPokemon(fetchedPokemon);
+
     setIsLoading(false);
   };
 
