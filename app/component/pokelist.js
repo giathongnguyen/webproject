@@ -37,6 +37,7 @@ const PokeList = () => {
         behavior: "auto",
       });
   };
+
   const fetchPokemon = async () => {
     const response = await fetch(
       "https://pokeapi.co/api/v2/pokemon?limit=1025&offset=0"
@@ -51,12 +52,12 @@ const PokeList = () => {
       );
       const pokemonData = await response.json();
       fetchedPokemon.push(pokemonData);
-      fetchedPokemon.sort((a, b) => a.id - b.id);
-      setPokemon([...fetchedPokemon]);
-      setFilteredPokemon([...fetchedPokemon]);
     }
 
-    console.log(fetchedPokemon);
+    fetchedPokemon.sort((a, b) => a.id - b.id);
+    setPokemon(fetchedPokemon);
+    setFilteredPokemon(fetchedPokemon);
+    setIsLoading(false);
   };
 
   useEffect(() => {
