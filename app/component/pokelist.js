@@ -76,7 +76,7 @@ const PokeList = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 min-h-screen">
+    <div className="bg-white dark:bg-gray-800">
       <div className="absolute top-28 right-4 z-10">
         <Theme />
       </div>

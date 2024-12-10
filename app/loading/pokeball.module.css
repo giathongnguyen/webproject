@@ -1,8 +1,4 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
+.loadingContainer {
   display: flex;
   justify-content: center;
   align-items: center;

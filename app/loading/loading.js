@@ -1,10 +1,10 @@
 import React from "react";
-import "./pokeball.css";
+import styles from "./pokeball.module.css";
 
 const Loading = () => {
   return (
-    <div className="loading-container">
-      <div className="pokeball"></div>
+    <div className={styles.loadingContainer}>
+      <div className={styles.pokeball}></div>
     </div>
   );
 };
