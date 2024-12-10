@@ -50,7 +50,6 @@ const PokeList = () => {
     fetchedPokemon.sort((a, b) => a.id - b.id);
     setPokemon(fetchedPokemon);
     setFilteredPokemon(fetchedPokemon);
-
     setIsLoading(false);
   };
 
