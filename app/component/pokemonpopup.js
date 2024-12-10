@@ -108,23 +108,23 @@ const PokemonPopup = ({
               ))}
             </div>
           </div>
-          <div className="flex justify-center items-center mt-2 bg-[#758694] rounded-lg outline outline-2 ">
+          <div className="flex justify-center items-center mt-2 bg-[#758694] rounded-lg outline outline-2 outline-black">
             <div className="font-bold text-center">
               <div className="uppercase border-b-2 border-black">
                 <p className="m-3 mx-14">Abilities</p>
               </div>
-              <div className="bg-[#9AA6B2]">
-                {abilities.map((ability, index) => (
-                  <p
-                    className={`capitalize px-2 py-2 ${
-                      index === 0 ? "border-b-2 border-black" : ""
-                    }`}
-                    key={index}
-                  >
-                    {ability}
-                  </p>
-                ))}
-              </div>
+              <table className="table-auto w-full bg-[#9AA6B2] rounded-b-lg">
+                <tbody>
+                  {abilities.map((ability, index) => (
+                    <tr
+                      key={index}
+                      className="capitalize border-b-2 border-black last:border-none"
+                    >
+                      <td className="px-2 py-2 text-center">{ability}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
