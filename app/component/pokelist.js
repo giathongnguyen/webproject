@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pokemon from "./pokemon";
 import PokeSearch from "../topbar/pokeSearch";
 import Loading from "../loading/loading";
@@ -11,6 +11,11 @@ const PokeList = () => {
   const [filteredPokemon, setFilteredPokemon] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [inputPage, setInputPage] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+
+  const limit = 50;
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -27,7 +32,7 @@ const PokeList = () => {
     isVisible &&
       window.scrollTo({
         top: 0,
-        behavior: "auto",
+        behavior: "smooth",
       });
   };
 
@@ -52,6 +57,7 @@ const PokeList = () => {
 
       setPokemon(fetchedPokemon);
       setFilteredPokemon(fetchedPokemon);
+      setTotalPages(Math.ceil(fetchedPokemon.length / limit));
     } catch (error) {
       console.error("Error fetching Pokémon:", error);
     } finally {
@@ -69,11 +75,54 @@ const PokeList = () => {
       poke.name.toLowerCase().includes(lowerCaseQuery)
     );
     setFilteredPokemon(filtered);
+    setPage(0);
+    setTotalPages(Math.ceil(filtered.length / limit));
+  };
+
+  const handlePageChange = (e) => {
+    const value = e.target.value;
+    if (value === "" || /^[0-9\b]+$/.test(value)) {
+      setInputPage(value);
+    }
+  };
+
+  const goToPage = () => {
+    if (inputPage !== "") {
+      const pageNumber = parseInt(inputPage) - 1;
+      if (!isNaN(pageNumber) && pageNumber >= 0 && pageNumber < totalPages) {
+        setPage(pageNumber);
+      }
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages - 1) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (page > 0) {
+      setPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const goToFirstPage = () => {
+    setPage(0);
+  };
+
+  const goToLastPage = () => {
+    setPage(totalPages - 1);
   };
 
   if (isLoading) {
     return <Loading />;
   }
+
+  const displayedPokemon = filteredPokemon.slice(
+    page * limit,
+    (page + 1) * limit
+  );
 
   return (
     <div className="bg-white dark:bg-gray-800">
@@ -82,7 +131,7 @@ const PokeList = () => {
       </div>
       <PokeSearch onSearch={handleSearch} />
       <div className="flex flex-wrap justify-center gap-4 p-4">
-        {filteredPokemon.map((pokemonstats) => (
+        {displayedPokemon.map((pokemonstats) => (
           <Pokemon
             key={pokemonstats.name}
             id={pokemonstats.id.toString().padStart(3, "0")}
@@ -102,6 +151,56 @@ const PokeList = () => {
               .slice(0, 3)}
           />
         ))}
+      </div>
+
+      <div className="flex justify-center space-x-4 p-4">
+        <button
+          className="font-bold bg-yellow-300 rounded-full p-4 outline-none"
+          onClick={goToFirstPage}
+          disabled={page === 0}
+        >
+          First
+        </button>
+        <button
+          className="font-bold bg-yellow-300 rounded-full p-4 outline-none"
+          onClick={handlePrevPage}
+          disabled={page === 0}
+        >
+          Previous
+        </button>
+        <input
+          type="text"
+          value={inputPage}
+          onChange={handlePageChange}
+          placeholder="Page number"
+          className="text-center rounded-full p-2 border-2 border-gray-300"
+        />
+        <button
+          className="font-bold bg-yellow-300 rounded-full p-4 outline-none w-20"
+          onClick={goToPage}
+        >
+          Go
+        </button>
+        <button
+          className="font-bold bg-yellow-300 rounded-full p-4 outline-none w-20"
+          onClick={handleNextPage}
+          disabled={page === totalPages - 1}
+        >
+          Next
+        </button>
+        <button
+          className="font-bold bg-yellow-300 rounded-full p-4 outline-none w-20"
+          onClick={goToLastPage}
+          disabled={page === totalPages - 1}
+        >
+          Last
+        </button>
+      </div>
+
+      <div className="flex justify-center p-4 mr-20">
+        <span className="dark:text-white">
+          Page {page + 1} of {totalPages}
+        </span>
       </div>
 
       <button

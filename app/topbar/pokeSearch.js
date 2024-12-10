@@ -1,13 +1,14 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function PokeSearch({ onSearch }) {
   const [search, setSearch] = useState("");
+
   const handleSearch = (e) => {
     const query = e.target.value;
     setSearch(query);
     onSearch(query);
   };
+
   return (
     <div className="bg-red-700 p-4">
       <img src="logo.png" alt="PokeSearch" className="w-[600px] mx-auto" />

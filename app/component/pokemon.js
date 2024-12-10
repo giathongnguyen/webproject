@@ -69,7 +69,7 @@ const Pokemon = ({
                 fontWeight: "bold",
                 textTransform: "capitalize",
                 border: "2px solid #fff",
-                width: "80px",
+                width: "90px",
                 textAlign: "center",
               }}
             >
